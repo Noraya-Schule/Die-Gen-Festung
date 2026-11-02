@@ -122,7 +122,7 @@
         </div>
 
         <!-- Run the game code -->
-        <script type="text/javascript" src="html5game/GenFestung.js?cachebust=1793645851"></script>
+        <script type="text/javascript" src="html5game/GenFestung.js?cachebust=1793645976"></script>
 
         <!-- Builtin injector for injecting runner path -->
         
@@ -139,24 +139,6 @@
             <p>Bitte dreh dein Gerät quer.</p>
             <small>Die Gen-Festung wird im Querformat gespielt.</small>
         </div>
-        <script>
-        // Nur Android (Chrome): beim ersten Antippen Vollbild und Querformat sperren.
-        // iPhone/iPad erlauben das nicht, dort hilft der Hinweis oben.
-        (function () {
-            var fertig = false;
-            function quer() {
-                if (fertig) return;
-                var o = screen.orientation;
-                if (!o || !o.lock || !/Android/i.test(navigator.userAgent)) { fertig = true; return; }
-                var el = document.documentElement;
-                var vb = el.requestFullscreen ? el.requestFullscreen({ navigationUI: 'hide' }) : null;
-                fertig = true;
-                Promise.resolve(vb).then(function () { return o.lock('landscape'); }).catch(function () {});
-            }
-            window.addEventListener('touchend', quer, true);
-            window.addEventListener('pointerup', quer, true);
-        })();
-        </script>
     </body>
 
     <!-- Custom PostBody code is injected here -->
