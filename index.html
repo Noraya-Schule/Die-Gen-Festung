@@ -133,7 +133,7 @@
         </div>
 
         <!-- Run the game code -->
-        <script type="text/javascript" src="html5game/GenFestung.js?cachebust=1793649254"></script>
+        <script type="text/javascript" src="html5game/GenFestung.js?cachebust=1793649647"></script>
 
         <!-- Builtin injector for injecting runner path -->
         
@@ -155,7 +155,7 @@
             <p>Die Gen-Festung ist für das iPad und den PC gemacht.</p>
             <small>Auf dem Handy ist der Bildschirm zu klein, Texte und Rätsel sind dort kaum zu erkennen.</small>
             <a href="../">Zurück zu den Lernspielen</a>
-            <button type="button" onclick="document.documentElement.classList.remove('ist-handy')">Trotzdem spielen</button>
+            <button type="button" id="trotzdem">Trotzdem spielen</button>
         </div>
         <script>
         // Handy erkennen: Touch-Gerät mit kleinem Bildschirm (iPads haben mindestens 744 Punkte Breite)
@@ -164,6 +164,18 @@
                 var kurz = Math.min(screen.width, screen.height);
                 if (window.matchMedia('(pointer: coarse)').matches && kurz < 600) document.documentElement.classList.add('ist-handy');
             } catch (e) {}
+            // "Trotzdem spielen": Hinweis schließen und (wo möglich, z. B. Android) Vollbild im Querformat
+            document.getElementById('trotzdem').addEventListener('click', function () {
+                document.documentElement.classList.remove('ist-handy');
+                try {
+                    var el = document.documentElement;
+                    var anf = el.requestFullscreen ? el.requestFullscreen({ navigationUI: 'hide' })
+                            : (el.webkitRequestFullscreen ? el.webkitRequestFullscreen() : null);
+                    Promise.resolve(anf).then(function () {
+                        if (screen.orientation && screen.orientation.lock) return screen.orientation.lock('landscape');
+                    }).catch(function () {});
+                } catch (e) {}
+            });
         })();
         </script>
     </body>
