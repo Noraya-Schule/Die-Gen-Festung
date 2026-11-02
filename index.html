@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
     <!-- Custom PreHead code is injected here -->
     
@@ -74,6 +74,16 @@
             }
             /* END - Custom Runner Styles */
             
+
+            /* Hinweis: Handy drehen */
+            #drehen { display:none; position:fixed; inset:0; z-index:1000; background:#0f1722; color:#e8edf4;
+                      font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; text-align:center;
+                      flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:24px; }
+            #drehen svg { animation: drehen 2.4s ease-in-out infinite; }
+            @keyframes drehen { 0%,25% { transform:rotate(0deg); } 55%,100% { transform:rotate(-90deg); } }
+            #drehen p { margin:0; font-size:1.25rem; line-height:1.4; max-width:22ch; }
+            #drehen small { color:#a7b3c4; font-size:.95rem; }
+            @media (orientation: portrait) and (pointer: coarse) { #drehen { display:flex; } }
         </style>
 
         <!-- Custom PostStyle code is injected here -->
@@ -124,6 +134,29 @@
 
         <!-- Custom BodyEnd code is injected here -->
         
+        <div id="drehen" role="alert">
+            <svg width="90" height="90" viewBox="0 0 90 90" fill="none" stroke="#5fd38a" stroke-width="5" stroke-linejoin="round" aria-hidden="true"><rect x="27" y="8" width="36" height="74" rx="7"/><line x1="40" y1="72" x2="50" y2="72"/></svg>
+            <p>Bitte dreh dein Gerät quer.</p>
+            <small>Die Gen-Festung wird im Querformat gespielt.</small>
+        </div>
+        <script>
+        // Nur Android (Chrome): beim ersten Antippen Vollbild und Querformat sperren.
+        // iPhone/iPad erlauben das nicht, dort hilft der Hinweis oben.
+        (function () {
+            var fertig = false;
+            function quer() {
+                if (fertig) return;
+                var o = screen.orientation;
+                if (!o || !o.lock || !/Android/i.test(navigator.userAgent)) { fertig = true; return; }
+                var el = document.documentElement;
+                var vb = el.requestFullscreen ? el.requestFullscreen({ navigationUI: 'hide' }) : null;
+                fertig = true;
+                Promise.resolve(vb).then(function () { return o.lock('landscape'); }).catch(function () {});
+            }
+            window.addEventListener('touchend', quer, true);
+            window.addEventListener('pointerup', quer, true);
+        })();
+        </script>
     </body>
 
     <!-- Custom PostBody code is injected here -->
